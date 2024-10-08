@@ -1,6 +1,12 @@
 "use strict";
 
-let groceryitems = [
+//declare all the variables used in code
+const storeWrapper = document.querySelector('.productsGroup');
+const cartWrapper = document.querySelector('.cartList')
+let cartItems = [];
+
+//list all the groceries in the store
+const groceryItems = [
   {
     id: 1,
     name: 'Cheese',
@@ -75,21 +81,36 @@ let groceryitems = [
   }
 ];
 
-const wrapper = document.querySelector('.productsGroup');
+//display grocery items in the store
+const displayGroceryItems = function(itemsArr) {
+  storeWrapper.innerHTML = '';
+  
+  groceryItems.forEach(function(item, i) {
+  const html = `<div class="item">
+      <div class="imgWrapper">
+        <img src=${item.img}></img>
+      </div>
+      
+      <p class="itemPrice">$${item.price.toFixed(2)}/each</p>
+      <p class="itemName">${item.name}</p>      
+      <div class="selWrapper">
+        <div class="qtyBtns">
+          <button onclick="decrease(this)" class="incDecBtn">-</button>
+          <span class="qtyNum">0</span>
+          <button onclick="increase(this)" class="incDecBtn">+</button>
+        </div>
+        <button class="addToCartBtn btn_${i}" onclick="addItemToCart(this, cartItems)">ADD TO CART</button>
+      </div>
+      
+    </div>`;
+  
+ storeWrapper.insertAdjacentHTML('beforeend', html);
+});
+};
 
-console.log(wrapper);
+displayGroceryItems(groceryItems);
 
-
-
-
-
-
-
-let itemQty;
-
-let cartClicked = function() {
-  alert("Cart was clicked")
-}
+//display qty amount and add functionality to store buttons in productsGroup
 
 let increase = function(btn) {
   const addQtyBtn = btn;
@@ -109,15 +130,42 @@ let decrease = function(btn) {
   
 };
 
-let cartArr = [];
+//add items to cart array
 
-let addToCartArr = function() {
-  let newItem = {};
+
+const addItemToCart = function(btnClicked, arr) {
+  cartWrapper.innerHTML = '';
+  const itemToAdd = groceryItems.find(function(item, i) {
+    // console.log(btnClicked.classList.contains('btn_${i}'));
+    return btnClicked.classList.contains(`btn_${i}`);
+  })    
   
+  const cartHtml = `<div class="cartItem">
+        <div class="carImgWrapper">
+          <img class="cartImg" src="${itemToAdd.img}">
+          </div>
+          <div class="cartDescription">
+            <p class="itemPrice">$${itemToAdd.price.toFixed(2)}/each</p>
+            <p class="itemName">${itemToAdd.name}</p> 
+          </div>
+        
+          <div class="cartQtyWrapper">
+            <button class="incDecBtn">-</button>
+            <span class="qtyNum">2</span>
+            <button class="incDecBtn">+</button>
+          </div>
+               
+      </div>`
   
-  
-  cartArr.push(newItem);
+    arr.push(cartHtml);
 };
+
+
+
+
+
+
+
 
 
 
