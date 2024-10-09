@@ -132,40 +132,37 @@ let decrease = function(btn) {
 
 //add items to cart array
 
-
 const addItemToCart = function(btnClicked, arr) {
-  cartWrapper.innerHTML = '';
   const itemToAdd = groceryItems.find(function(item, i) {
-    // console.log(btnClicked.classList.contains('btn_${i}'));
     return btnClicked.classList.contains(`btn_${i}`);
   })    
   
-  const cartHtml = `<div class="cartItem">
-        <div class="carImgWrapper">
-          <img class="cartImg" src="${itemToAdd.img}">
-          </div>
-          <div class="cartDescription">
-            <p class="itemPrice">$${itemToAdd.price.toFixed(2)}/each</p>
-            <p class="itemName">${itemToAdd.name}</p> 
-          </div>
-        
-          <div class="cartQtyWrapper">
-            <button class="incDecBtn">-</button>
-            <span class="qtyNum">2</span>
-            <button class="incDecBtn">+</button>
-          </div>
-               
-      </div>`
-  
-    arr.push(cartHtml);
+  arr.push(itemToAdd);
+  displayCartItems(arr);
 };
 
-
-
-
-
-
-
-
-
+//display cart items array
+const displayCartItems = function(itemsArr) {
+  cartWrapper.innerHTML = '';
+  
+  itemsArr.forEach(function(item, i) {
+  const html = `<div class="cartItem">
+         <div class="carImgWrapper">
+           <img class="cartImg" src="${item.img}">
+           </div>
+           <div class="cartDescription">
+             <p class="itemPrice">$${item.price.toFixed(2)}/each</p>
+             <p class="itemName">${item.name}</p> 
+           </div>
+        
+           <div class="cartQtyWrapper">
+             <button class="incDecBtn">-</button>
+             <span class="qtyNum">2</span>
+             <button class="incDecBtn">+</button>
+           </div>
+          </div>`;
+  
+ cartWrapper.insertAdjacentHTML('beforeend', html);
+});
+};
 
